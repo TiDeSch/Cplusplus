@@ -1,2 +1,2 @@
-# C-
-My c++ scripts
+# C++
+C++ scripts
