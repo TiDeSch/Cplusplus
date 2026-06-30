@@ -83,7 +83,7 @@ public:
     }
 };
 
-/* Write a history of the water heights to an ASCII file
+/* history of the water heights to an ASCII file
  *
  * @param water_history  Vector of the all water worlds to write
  * @param filename       The output filename of the ASCII file
