@@ -1,8 +1,3 @@
-/*
-  Assignment: Make an OpenMP parallelised wave propagation
-  model for computing the seismic repsonse for a wave
-  propagating through a horizontally stratified medium
-*/
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -13,14 +8,12 @@
 #include <cmath>
 #include <omp.h>
 
-
-// ======================================================
 // The number of frequencies sets the cost of the problem
 const long NTHREADS=64;            // number of threads
 const long NFREQ=64*1024;         // number of frequencies per core
 const long nfreq=NFREQ*NTHREADS;  // frequencies in spectrum
 
-// ======================================================
+//
 template <class T> class NUMA_Allocator {
 public:
   typedef T* pointer;
@@ -141,7 +134,7 @@ void ifft(ComplexVector& x)
             * inv_size;     // scale the numbers
 }
 
-// Main routine: propgate wave through layers and compute seismogram
+// Main: propgate wave through layers and compute seismogram
 DoubleVector propagator(std::vector<double> wave,
                         std::vector<double> density,
                         std::vector<double> velocity) {
@@ -216,7 +209,7 @@ DoubleVector propagator(std::vector<double> wave,
     tend1 = std::chrono::high_resolution_clock::now(); // end time (nano-seconds)
 
     // spectrum U of upgoing waves just below the surface.
-    // See eq. (43) and (44) in Ganley (1981).
+    // eq. (43) and (44) in Ganley (1981).
 
     #pragma omp parallel for
     for (long i=0; i < nfreq+1; i++) {
@@ -268,9 +261,7 @@ DoubleVector propagator(std::vector<double> wave,
     return seismogram;
 }
 
-//======================================================================================================
-//======================== Main function ===============================================================
-//======================================================================================================
+// --------------- Main ---------------
 int main(int argc, char* argv[]){    
     // Load the wave profile and the density and velocity structure of the rock from text files
     std::vector<double> wave = read_txt_file("wave_data.txt");         // input impulse wave in medium
