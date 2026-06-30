@@ -7,31 +7,29 @@
 #include <mpi.h>
 #include <cstdint>  
 
-// Get the number of processes
+// the number of processes
 int mpi_size;
 
-// Get the rank of the process
+// the rank of the process
 int mpi_rank;
 
 /** Representation of a flat world */
 class World {
 public:
-    // The current world time of the world
+    // current world time of the world
     double time;
-    // The size of the world in the latitude dimension and the global size
+    // size of the world in the latitude dimension and the global size
     uint64_t latitude, global_latitude;
-    // The size of the world in the longitude dimension
+    // size of the world in the longitude dimension
     uint64_t longitude, global_longitude;
-    // The offset for this rank in the latitude dimension
+    // offset for this rank in the latitude dimension
     long int offset_latitude;
-    // The offset for this rank in the longitude dimension
+    // offset for this rank in the longitude dimension
     long int offset_longitude;
-    // The temperature of each coordinate of the world.
-    // NB: it is up to the calculation to interpret this vector in two dimension.
+    // temperature of each coordinate of the world.
     std::vector<double> data;
-    // The measure of the diffuse reflection of solar radiation at each world coordinate.
-    // See: <https://en.wikipedia.org/wiki/Albedo>
-    // NB: this vector has the same length as `data` and must be interpreted in two dimension as well.
+    // measure of the diffuse reflection of solar radiation at each world coordinate.
+    // --- this vector has the same length as `data` and must be interpreted in two dimension as well.
     std::vector<double> albedo_data;
 
     /** Create a new flat world.
@@ -40,7 +38,7 @@ public:
      * @param longitude    The size of the world in the longitude dimension.
      * @param temperature  The initial temperature (the whole world starts with the same temperature).
      * @param albedo_data  The measure of the diffuse reflection of solar radiation at each world coordinate.
-     *                     This vector must have the size: `latitude * longitude`.
+     *                     --- vector must have the size: `latitude * longitude`.
      */
     World(uint64_t latitude, uint64_t longitude, double temperature,
           std::vector<double> albedo_data) : latitude(latitude), longitude(longitude),
@@ -346,7 +344,7 @@ int main(int argc, char **argv) {
     int name_len;
     MPI_Get_processor_name(processor_name, &name_len);
 
-    // Print off a hello world message
+    // Print off a message
     std::cout << "Flat World Climate running on " << processor_name
               << ", rank " << mpi_rank << " out of " << mpi_size << std::endl;
 
