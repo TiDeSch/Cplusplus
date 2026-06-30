@@ -4,8 +4,10 @@
 #include <cmath> 
 #include <algorithm>
 #include <tuple>
-//We are both creating a matrix with absolute difference and vectors for S, I, R using dt and dt/2. This is done so we can get loop over the 10 different dt, but also get a vector of the difference between dt and dt/2 with one dt.
-//Be aware, if you want to create results for task 1 and 2, and want S, I and R half and difference. Then the vector of dt_values must contain delta_t 
+// Create matrix with absolute difference and vectors for S, I, R using dt and dt/2. 
+// To get loop over the 10 different dt. Also get a vector of the difference between dt and dt/2 with one dt.
+
+// Vector of dt_values must contain delta_t if results for task 1 and 2, and want S, I and R half and difference
 
 
 
@@ -15,7 +17,6 @@
 // gamma: recovery rate
 // dt: time step
 
-//todo: implement the SIR model
 std::vector<float> take_step(std::vector<float> state, float beta, float gamma, float dt, float N) {
     float S = state[0];
     float I = state[1];
@@ -61,12 +62,9 @@ void compute_max(const std::vector<float>& differences, const std::string& label
 }
 
 
-//======================================================================================================
-//======================== Main function ===============================================================
-//======================================================================================================
-
+// ------- Main function ----------------------
 int main() {
-    // define the parameters
+    // define parameters
     float beta = 0.2;
     float gamma = 0.1;
     float delta_t = 1;
@@ -81,9 +79,8 @@ int main() {
     file3 << "dt,Max_Value, s, I, R\n";
 
     for (size_t dt_index = 0; dt_index < dt_values.size(); ++dt_index) {
+        // define SIR parameters
         float dt = dt_values[dt_index];
-        
-        // TODO: Define the parameters of the SIR model
         float S = 0.999 * N;
         float I = 0.001 * N; 
         float R = N - S - I;
@@ -98,7 +95,7 @@ int main() {
 
         std::ofstream file, file1, file2;
         if (dt == delta_t) {
-            // TODO: Save the results to a file
+            // Save
             file.open("SIR_results.csv");
             file1.open("SIR_half_results.csv");
             file2.open("SIR_abs_diff.csv");
@@ -114,7 +111,7 @@ int main() {
                 file1 << day << "," << S_half << "," << I_half << "," << R_half << "\n";
             }
             
-            // TODO: implement the SIR model
+            // implement SIR model
             float t = 0;
             float t_half = 0;
             while (t < 1.0f) {
@@ -143,8 +140,7 @@ int main() {
                 file2 << day << "," << res[0] << "," << res[1] << "," << res[2] << "\n";
             }
         }
-
-        // TODO: Save the results to a file
+        // Save
         if (dt == delta_t) {
             file.close();
             file1.close();
