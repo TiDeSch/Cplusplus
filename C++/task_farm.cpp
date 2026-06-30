@@ -1,23 +1,16 @@
-/*
-  Assignment: Make an MPI task farm. A "task" is a randomly generated integer.
-  To "execute" a task, the worker sleeps for the given number of milliseconds.
-  The result of a task should be send back from the worker to the master. It
-  contains the rank of the worker
-*/
-
 #include <iostream>
 #include <random>
 #include <chrono>
 #include <thread>
 #include <array>
 
-// To run an MPI program we always need to include the MPI headers
+// include the MPI headers
 #include <mpi.h>
 
 const int NTASKS = 5000;  // number of tasks
 const int RANDOM_SEED = 1234;
 
-// call this function to complete the task. It sleeps for task milliseconds
+// call function to complete task. It sleeps for task milliseconds
 void task_function(int task) {
     std::this_thread::sleep_for(std::chrono::milliseconds(task));
 }
@@ -25,11 +18,11 @@ void task_function(int task) {
 void master(int nworker) {
     std::array<int, NTASKS> task, result;
 
-    // set up a random number generator
+    // random number generator
     std::random_device rd;
     std::default_random_engine engine;
     engine.seed(RANDOM_SEED);
-    // make a distribution of random integers in the interval [0:30]
+    // distribution of random integers in the interval [0:30]
     std::uniform_int_distribution<int> distribution(0, 30);
 
     for (int& t : task) {
